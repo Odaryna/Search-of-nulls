@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		095DA7FD367A41D174E4C631 /* Pods_Search_of_nulls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE8B2ECD7A97D71AA8B7439 /* Pods_Search_of_nulls.framework */; };
+		0BDCD3EFD3A85C66416EB6F5 /* Pods_Search_of_nullsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F387D5F1B236772183EE9B93 /* Pods_Search_of_nullsTests.framework */; };
 		7DD374B31FAB4A6B0017FB03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD374B21FAB4A6B0017FB03 /* AppDelegate.swift */; };
 		7DD374B51FAB4A6B0017FB03 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD374B41FAB4A6B0017FB03 /* ViewController.swift */; };
 		7DD374B71FAB4A6B0017FB03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DD374B61FAB4A6B0017FB03 /* Assets.xcassets */; };
 		7DD374BA1FAB4A6B0017FB03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DD374B81FAB4A6B0017FB03 /* Main.storyboard */; };
 		7DD374C61FAB4A6B0017FB03 /* Search_of_nullsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD374C51FAB4A6B0017FB03 /* Search_of_nullsTests.swift */; };
 		7DD374D11FAB4A6B0017FB03 /* Search_of_nullsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD374D01FAB4A6B0017FB03 /* Search_of_nullsUITests.swift */; };
+		D48417EB83541C4817031BA8 /* Pods_Search_of_nullsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B0CF9B2AFFE1CEDFF897FE5 /* Pods_Search_of_nullsUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +36,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		058E3416F2CBFA4AE8010FD8 /* Pods-Search of nullsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nullsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nullsTests/Pods-Search of nullsTests.release.xcconfig"; sourceTree = "<group>"; };
+		3B0CF9B2AFFE1CEDFF897FE5 /* Pods_Search_of_nullsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Search_of_nullsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CE8B2ECD7A97D71AA8B7439 /* Pods_Search_of_nulls.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Search_of_nulls.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C3B42DA5FB84A2F83C6A2C7 /* Pods-Search of nullsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nullsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nullsUITests/Pods-Search of nullsUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		531021DED8AFF543AC0E006F /* Pods-Search of nullsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nullsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nullsUITests/Pods-Search of nullsUITests.release.xcconfig"; sourceTree = "<group>"; };
+		5FCB5EC938C60EA027CB42D2 /* Pods-Search of nullsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nullsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nullsTests/Pods-Search of nullsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7DD374AF1FAB4A6B0017FB03 /* Search of nulls.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Search of nulls.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DD374B21FAB4A6B0017FB03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7DD374B41FAB4A6B0017FB03 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -46,6 +55,9 @@
 		7DD374CC1FAB4A6B0017FB03 /* Search of nullsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Search of nullsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DD374D01FAB4A6B0017FB03 /* Search_of_nullsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search_of_nullsUITests.swift; sourceTree = "<group>"; };
 		7DD374D21FAB4A6B0017FB03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		889937FD6D6AC039104D92A6 /* Pods-Search of nulls.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nulls.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nulls/Pods-Search of nulls.debug.xcconfig"; sourceTree = "<group>"; };
+		AC5BA20533EF68019F129FA1 /* Pods-Search of nulls.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nulls.release.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nulls/Pods-Search of nulls.release.xcconfig"; sourceTree = "<group>"; };
+		F387D5F1B236772183EE9B93 /* Pods_Search_of_nullsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Search_of_nullsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				095DA7FD367A41D174E4C631 /* Pods_Search_of_nulls.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BDCD3EFD3A85C66416EB6F5 /* Pods_Search_of_nullsTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D48417EB83541C4817031BA8 /* Pods_Search_of_nullsUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +95,8 @@
 				7DD374C41FAB4A6B0017FB03 /* Search of nullsTests */,
 				7DD374CF1FAB4A6B0017FB03 /* Search of nullsUITests */,
 				7DD374B01FAB4A6B0017FB03 /* Products */,
+				C6C78DF5AF249392764BBAAD /* Pods */,
+				D52FA8B7E348F8086D6961C0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,6 +141,29 @@
 			path = "Search of nullsUITests";
 			sourceTree = "<group>";
 		};
+		C6C78DF5AF249392764BBAAD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				889937FD6D6AC039104D92A6 /* Pods-Search of nulls.debug.xcconfig */,
+				AC5BA20533EF68019F129FA1 /* Pods-Search of nulls.release.xcconfig */,
+				5FCB5EC938C60EA027CB42D2 /* Pods-Search of nullsTests.debug.xcconfig */,
+				058E3416F2CBFA4AE8010FD8 /* Pods-Search of nullsTests.release.xcconfig */,
+				4C3B42DA5FB84A2F83C6A2C7 /* Pods-Search of nullsUITests.debug.xcconfig */,
+				531021DED8AFF543AC0E006F /* Pods-Search of nullsUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D52FA8B7E348F8086D6961C0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3CE8B2ECD7A97D71AA8B7439 /* Pods_Search_of_nulls.framework */,
+				F387D5F1B236772183EE9B93 /* Pods_Search_of_nullsTests.framework */,
+				3B0CF9B2AFFE1CEDFF897FE5 /* Pods_Search_of_nullsUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -131,9 +171,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7DD374D51FAB4A6B0017FB03 /* Build configuration list for PBXNativeTarget "Search of nulls" */;
 			buildPhases = (
+				178E9833605CF8BEA97BFC61 /* [CP] Check Pods Manifest.lock */,
 				7DD374AB1FAB4A6B0017FB03 /* Sources */,
 				7DD374AC1FAB4A6B0017FB03 /* Frameworks */,
 				7DD374AD1FAB4A6B0017FB03 /* Resources */,
+				746ACFA740EB2583113D744C /* [CP] Embed Pods Frameworks */,
+				9C5A12723596B115E50F4B30 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -148,9 +191,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7DD374D81FAB4A6B0017FB03 /* Build configuration list for PBXNativeTarget "Search of nullsTests" */;
 			buildPhases = (
+				E608942E200A1E0790BC9DC1 /* [CP] Check Pods Manifest.lock */,
 				7DD374BD1FAB4A6B0017FB03 /* Sources */,
 				7DD374BE1FAB4A6B0017FB03 /* Frameworks */,
 				7DD374BF1FAB4A6B0017FB03 /* Resources */,
+				B88C42CDB7B2FB96DBB1CA93 /* [CP] Embed Pods Frameworks */,
+				E0608EBF27E76CEED3F89A86 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -166,9 +212,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7DD374DB1FAB4A6B0017FB03 /* Build configuration list for PBXNativeTarget "Search of nullsUITests" */;
 			buildPhases = (
+				3EC527359A715402DE7BA255 /* [CP] Check Pods Manifest.lock */,
 				7DD374C81FAB4A6B0017FB03 /* Sources */,
 				7DD374C91FAB4A6B0017FB03 /* Frameworks */,
 				7DD374CA1FAB4A6B0017FB03 /* Resources */,
+				076336A60036D153A47E19F5 /* [CP] Embed Pods Frameworks */,
+				D48A9E427B4A5DF9F1A7D8AE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -251,6 +300,156 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		076336A60036D153A47E19F5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Search of nullsUITests/Pods-Search of nullsUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		178E9833605CF8BEA97BFC61 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Search of nulls-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3EC527359A715402DE7BA255 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Search of nullsUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		746ACFA740EB2583113D744C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Search of nulls/Pods-Search of nulls-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CorePlot/CorePlot.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CorePlot.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Search of nulls/Pods-Search of nulls-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9C5A12723596B115E50F4B30 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Search of nulls/Pods-Search of nulls-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B88C42CDB7B2FB96DBB1CA93 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Search of nullsTests/Pods-Search of nullsTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D48A9E427B4A5DF9F1A7D8AE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Search of nullsUITests/Pods-Search of nullsUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E0608EBF27E76CEED3F89A86 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Search of nullsTests/Pods-Search of nullsTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E608942E200A1E0790BC9DC1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Search of nullsTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7DD374AB1FAB4A6B0017FB03 /* Sources */ = {
@@ -413,6 +612,7 @@
 		};
 		7DD374D61FAB4A6B0017FB03 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 889937FD6D6AC039104D92A6 /* Pods-Search of nulls.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Search of nulls/Search_of_nulls.entitlements";
@@ -428,6 +628,7 @@
 		};
 		7DD374D71FAB4A6B0017FB03 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC5BA20533EF68019F129FA1 /* Pods-Search of nulls.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Search of nulls/Search_of_nulls.entitlements";
@@ -443,6 +644,7 @@
 		};
 		7DD374D91FAB4A6B0017FB03 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FCB5EC938C60EA027CB42D2 /* Pods-Search of nullsTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -459,6 +661,7 @@
 		};
 		7DD374DA1FAB4A6B0017FB03 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 058E3416F2CBFA4AE8010FD8 /* Pods-Search of nullsTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -475,6 +678,7 @@
 		};
 		7DD374DC1FAB4A6B0017FB03 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4C3B42DA5FB84A2F83C6A2C7 /* Pods-Search of nullsUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -490,6 +694,7 @@
 		};
 		7DD374DD1FAB4A6B0017FB03 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 531021DED8AFF543AC0E006F /* Pods-Search of nullsUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
