@@ -10,6 +10,7 @@
 		095DA7FD367A41D174E4C631 /* Pods_Search_of_nulls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE8B2ECD7A97D71AA8B7439 /* Pods_Search_of_nulls.framework */; };
 		0BDCD3EFD3A85C66416EB6F5 /* Pods_Search_of_nullsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F387D5F1B236772183EE9B93 /* Pods_Search_of_nullsTests.framework */; };
 		7D90AB11202D05F60043A96D /* OneDimensionalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D90AB10202D05F60043A96D /* OneDimensionalModel.swift */; };
+		7D90AB13202F427F0043A96D /* AlgorithmsForSearchingNulls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D90AB12202F427F0043A96D /* AlgorithmsForSearchingNulls.swift */; };
 		7DD374B31FAB4A6B0017FB03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD374B21FAB4A6B0017FB03 /* AppDelegate.swift */; };
 		7DD374B51FAB4A6B0017FB03 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD374B41FAB4A6B0017FB03 /* ViewController.swift */; };
 		7DD374B71FAB4A6B0017FB03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DD374B61FAB4A6B0017FB03 /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 		531021DED8AFF543AC0E006F /* Pods-Search of nullsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nullsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nullsUITests/Pods-Search of nullsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5FCB5EC938C60EA027CB42D2 /* Pods-Search of nullsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nullsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nullsTests/Pods-Search of nullsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7D90AB10202D05F60043A96D /* OneDimensionalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDimensionalModel.swift; sourceTree = "<group>"; };
+		7D90AB12202F427F0043A96D /* AlgorithmsForSearchingNulls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmsForSearchingNulls.swift; sourceTree = "<group>"; };
 		7DD374AF1FAB4A6B0017FB03 /* Search of nulls.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Search of nulls.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DD374B21FAB4A6B0017FB03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7DD374B41FAB4A6B0017FB03 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				7DD374BB1FAB4A6B0017FB03 /* Info.plist */,
 				7DD374BC1FAB4A6B0017FB03 /* Search_of_nulls.entitlements */,
 				7D90AB10202D05F60043A96D /* OneDimensionalModel.swift */,
+				7D90AB12202F427F0043A96D /* AlgorithmsForSearchingNulls.swift */,
 			);
 			path = "Search of nulls";
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DD374B51FAB4A6B0017FB03 /* ViewController.swift in Sources */,
+				7D90AB13202F427F0043A96D /* AlgorithmsForSearchingNulls.swift in Sources */,
 				7D90AB11202D05F60043A96D /* OneDimensionalModel.swift in Sources */,
 				7DD374B31FAB4A6B0017FB03 /* AppDelegate.swift in Sources */,
 			);
