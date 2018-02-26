@@ -12,21 +12,26 @@ import CorePlot
 class ViewController: NSViewController {
     
     var graph: CPTGraph!
+    var oneDimensionalModel: OneDimensionalModel!
+    var nullsFound: [Double]!
     
-    @IBOutlet var plotView: CPTGraphHostingView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    @IBAction func calculateAction(_ sender: NSButton) {
+        
+        oneDimensionalModel = OneDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), function: sin)
+        nullsFound = oneDimensionalModel.findNulls()
+        
+        
+        
         graph = CPTXYGraph(frame: NSRectToCGRect(plotView.bounds))
         let theme = CPTTheme(named: CPTThemeName.plainWhiteTheme)
         
         graph.apply(theme)
         plotView.hostedGraph = graph
         
-        graph.plotAreaFrame?.paddingTop = 10.0
-        graph.plotAreaFrame?.paddingBottom = 20.0
-        graph.plotAreaFrame?.paddingRight = 10.0
-        graph.plotAreaFrame?.paddingLeft = 20.0
+        graph.plotAreaFrame?.paddingTop = 2.0
+        graph.plotAreaFrame?.paddingBottom = -2.0
+        graph.plotAreaFrame?.paddingRight = CGFloat(oneDimensionalModel.start)
+        graph.plotAreaFrame?.paddingLeft = CGFloat(oneDimensionalModel.end)
         
         let textStyle = CPTMutableTextStyle()
         textStyle.fontSize = 12
@@ -34,18 +39,18 @@ class ViewController: NSViewController {
         let axisSet: CPTXYAxisSet = graph.axisSet as! CPTXYAxisSet
         
         let xAxis = axisSet.xAxis
-        xAxis?.majorIntervalLength = 0.5
+        xAxis?.majorIntervalLength = 1.0
         xAxis?.labelingPolicy = .fixedInterval
         xAxis?.labelTextStyle = textStyle
         
         let yAxis = axisSet.yAxis
-        yAxis?.majorIntervalLength = 5
+        yAxis?.majorIntervalLength = 1.0
         yAxis?.labelingPolicy = .fixedInterval
         yAxis?.labelTextStyle = textStyle
         
         let plotSpace = graph.defaultPlotSpace
-        plotSpace?.setPlotRange(CPTPlotRange(location: -1.5, length: 3.0), for: .X)
-        plotSpace?.setPlotRange(CPTPlotRange(location: 0, length: 5), for: .Y)
+        plotSpace?.setPlotRange(CPTPlotRange(location: oneDimensionalModel.start as NSNumber, length: (oneDimensionalModel.end + 5.0 as NSNumber)), for: .X)
+        plotSpace?.setPlotRange(CPTPlotRange(location: -2, length: 4), for: .Y)
         
         let plot3 = CPTScatterPlot(frame: graph.bounds)
         plot3.title = "Function"
@@ -58,22 +63,36 @@ class ViewController: NSViewController {
         
         graph.add(plot3)
         
-        graph.legendAnchor = .topLeft
-        graph.legend = CPTLegend(graph: graph)
-        graph.legend?.fill = CPTFill(color: .white())
-        graph.legendDisplacement = CGPoint(x: -20.0, y: -30.0)
-        let titleStyle = CPTMutableTextStyle()
+//        graph.legendAnchor = .topLeft
+//        graph.legend = CPTLegend(graph: graph)
+//        graph.legend?.fill = CPTFill(color: .white())
+//        graph.legendDisplacement = CGPoint(x: -20.0, y: -30.0)
+//        let titleStyle = CPTMutableTextStyle()
+//
+//        titleStyle.color = CPTColor.lightGray()
+//        titleStyle.fontSize = 11.0
+//        graph.legend?.textStyle = titleStyle
+//
+//        let lineStyle = CPTMutableLineStyle()
+//        lineStyle.lineWidth = 0.5
+//        lineStyle.lineColor = CPTColor(genericGray: 0.45)
+//
+//        graph.legend?.borderLineStyle = lineStyle
+//        graph.legend?.cornerRadius = 5.0
         
-        titleStyle.color = CPTColor.lightGray()
-        titleStyle.fontSize = 11.0
-        graph.legend?.textStyle = titleStyle
+    }
+    
+    @IBOutlet weak var resultScrollView: NSScrollView!
+    @IBOutlet weak var enterNTextField: NSTextField!
+    @IBOutlet weak var enterBTextField: NSTextField!
+    @IBOutlet weak var enterATextField: NSTextField!
+    @IBOutlet var plotView: CPTGraphHostingView!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        let lineStyle = CPTMutableLineStyle()
-        lineStyle.lineWidth = 0.75
-        lineStyle.lineColor = CPTColor(genericGray: 0.45)
+
         
-        graph.legend?.borderLineStyle = lineStyle
-        graph.legend?.cornerRadius = 5.0
     }
 
     override var representedObject: Any? {
@@ -86,22 +105,25 @@ class ViewController: NSViewController {
 extension ViewController: CPTPlotDataSource {
     
     func numberOfRecords(for plot: CPTPlot) -> UInt {
-        return 10
+        return UInt(oneDimensionalModel.numberOfSteps)
     }
     
     func number(for plot: CPTPlot, field: UInt, record: UInt) -> Any? {
-        guard let title = plot.title,
+        guard
+            //let title = plot.title,
             let field =  CPTScatterPlotField(rawValue: Int(field))
             
             else {
                 return nil
         }
         
+        let number:Int = Int(record)
+        
         switch field {
         case .X:
-            return CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+            return oneDimensionalModel.xPoints[number]
         case .Y:
-            return CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+            return sin(oneDimensionalModel.xPoints[number])
         }
     }
 }
