@@ -10,7 +10,7 @@ import Foundation
 
 struct OneDimensionalModel {
     
-    let start:Double
+    var start:Double
     let end:Double
     let numberOfSteps:Int
     let function:(Double)->Double
@@ -18,9 +18,7 @@ struct OneDimensionalModel {
     lazy var xPoints:[Double] = Array.init(repeating: 0.0, count: numberOfSteps + 1)
     lazy var fPoints:[Double] = Array.init(repeating: 0.0, count: numberOfSteps + 1)
     
-    var step:Double {
-        return abs((self.start - self.end) / Double(self.numberOfSteps))
-    }
+    lazy var step:Double = abs((self.start - self.end) / Double(self.numberOfSteps))
     
     init(startPoint a:Double, endPoint b:Double, numberOfSteps n:Int, function f:@escaping (Double) -> Double) {
         
@@ -33,7 +31,6 @@ struct OneDimensionalModel {
         
         for pointX in stride(from: a, to: b + step, by: step) {
             xPoints[index] = pointX
-            fPoints[index] = 1 + abs(f(pointX))
             index += 1
         }
     }
@@ -42,67 +39,112 @@ struct OneDimensionalModel {
     mutating func findNulls() -> [Double] {
         
         var nulls: [Double] = []
-        var i = 0
+        
+        step = 0.1
         
         func firstStep() {
             if abs(function(start)) < step {
                 
                 nulls.append(start)
                 forthStep()
+                return
             } else if abs(function(end)) < step {
                 return
             }
+            start += step
             secondStep()
         }
         func secondStep() {
-            for k in 1..<numberOfSteps-1 {
-                let rk1 = pow(fPoints[k] / fPoints[k + 1], 1 / step)
-                let rk11 = pow(fPoints[k + 1] / fPoints[k + 2], 1 / step)
+            
+            while start < end {
                 
-                print("r1 = \(rk1) r11 = \(rk11)")
+                let fk = 1 + abs(function(start))
+                let fk1 = 1 + abs(function(start + step))
+                let fk2 = 1 + abs(function(start + 2 * step))
+                
+                let rk1 = pow(fk / fk1, 1 / step)
+                let rk11 = pow(fk1 / fk2, 1 / step)
                 
                 if rk1 >= 1.0 && rk11 <= 1.0 {
-                    i = k + 1
-                    if abs(function(xPoints[i])) < step {
-                        nulls.append(xPoints[i])
-                        forthStep()
-                        return
+                    
+                    if step > 0.0001 {
+                        start -= step
+                        step /= 10
+                        start -= step
                     } else {
-                        thirdStep()
-                        return
+                        if abs(function(self.start)) < step {
+                            nulls.append(self.start)
+                            forthStep()
+                            return
+                        } else {
+                            thirdStep()
+                            return
+                        }
                     }
                 }
+
+                start += step
             }
+
             thirdStep()
         }
         func thirdStep() {
-            for l in 1..<numberOfSteps - i - 1 {
-                let ril1 = fPoints[i] / fPoints[i + l]
-                let ril11 = fPoints[i] / fPoints[i + l + 1]
+            
+            let startingPoint = start
+//            start += step
+//            step = 0.1
+            
+            while start < end {
+                
+                let ril1 = (1 + abs(function(startingPoint))) / (1 + abs(function(start)))
+                let ril11 = (1 + abs(function(startingPoint))) / (1 + abs(function(start + step)))
                 
                 if ril1 >= 1.0 && ril11 <= 1.0 {
-                    i += l
-                    if abs(function(xPoints[i])) < step {
-                        nulls.append(xPoints[i])
-                        forthStep()
-                        return
-                    }
-                    break
+                    
+//                    if step > 0.0001 {
+//                        start = startingPoint
+//                        step /= 10
+//                    } else {
+                        if abs(function(start)) < step {
+                            nulls.append(start)
+                            forthStep()
+                            return
+                        }
+                        break
+ //                   }
+                
                 }
+                start += step
             }
+            
         }
         func forthStep() {
-            for k in 1..<numberOfSteps-i-1 {
-                let rik1 = fPoints[i] / fPoints[i + k]
-                let rik11 = fPoints[i] / fPoints[i + k + 1]
+            
+            step = 0.1
+            start += 2.0 * step
+            
+            while start < end {
+                
+                let rik1 = 1 / (1 + abs(function(start)))
+                let rik11 = 1 / (1 + abs(function(start + step)))
                 
                 if abs(1.0 - rik1) <= step && abs(1.0 - rik11) > step {
-                    nulls.append(xPoints[i + k])
+                    
+                    if step > 0.0001 {
+                        start -= step
+                        step /= 10
+                        start -= step
+                    } else {
+                        nulls.append(start)
+                        step = 0.1
+                        start += 2.0 * step
+                    }
+                    
                 }
+                start += step
             }
         }
-        firstStep()
-        
+        firstStep()        
         
         return nulls
     }

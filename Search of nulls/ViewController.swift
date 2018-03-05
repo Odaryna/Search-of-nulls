@@ -20,8 +20,6 @@ class ViewController: NSViewController {
         oneDimensionalModel = OneDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), function: sin)
         nullsFound = oneDimensionalModel.findNulls()
         
-        
-        
         graph = CPTXYGraph(frame: NSRectToCGRect(plotView.bounds))
         let theme = CPTTheme(named: CPTThemeName.plainWhiteTheme)
         
@@ -30,7 +28,7 @@ class ViewController: NSViewController {
         
         graph.plotAreaFrame?.paddingTop = 2.0
         graph.plotAreaFrame?.paddingBottom = -2.0
-        graph.plotAreaFrame?.paddingRight = CGFloat(oneDimensionalModel.start)
+        graph.plotAreaFrame?.paddingRight = CGFloat(enterATextField.doubleValue)
         graph.plotAreaFrame?.paddingLeft = CGFloat(oneDimensionalModel.end)
         
         let textStyle = CPTMutableTextStyle()
@@ -49,7 +47,7 @@ class ViewController: NSViewController {
         yAxis?.labelTextStyle = textStyle
         
         let plotSpace = graph.defaultPlotSpace
-        plotSpace?.setPlotRange(CPTPlotRange(location: oneDimensionalModel.start as NSNumber, length: (oneDimensionalModel.end + 5.0 as NSNumber)), for: .X)
+        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: (oneDimensionalModel.end + 5.0 as NSNumber)), for: .X)
         plotSpace?.setPlotRange(CPTPlotRange(location: -2, length: 4), for: .Y)
         
         let plot3 = CPTScatterPlot(frame: graph.bounds)
