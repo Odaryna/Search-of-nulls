@@ -15,10 +15,27 @@ class ViewController: NSViewController {
     var oneDimensionalModel: OneDimensionalModel!
     var nullsFound: [Double]!
     
+    private func function(_ x:Double) -> Double {
+        //return 16 * x * x * x * x * x - 20 * x * x * x + 5 * x
+        //return x * sin(x)
+        //return 8 * x * x * x * x - 8 * x * x + 1
+        //return 4 * x * x * x - 3 * x
+        return 2 * x * x - 1
+    }
+    
     @IBAction func calculateAction(_ sender: NSButton) {
         
-        oneDimensionalModel = OneDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), function: sin)
-        nullsFound = oneDimensionalModel.findNulls()
+
+        
+        oneDimensionalModel = OneDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), function: function)
+        
+        
+        
+        
+//        { x in
+//            16 * x * x * x * x * x - 20 * x * x * x + 5 * x
+//        }
+        nullsFound = oneDimensionalModel.findNullsSimple()
         
         graph = CPTXYGraph(frame: NSRectToCGRect(plotView.bounds))
         let theme = CPTTheme(named: CPTThemeName.plainWhiteTheme)

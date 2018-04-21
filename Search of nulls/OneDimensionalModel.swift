@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct OneDimensionalModel {
+class OneDimensionalModel {
     
     var start:Double
     let end:Double
@@ -18,7 +18,7 @@ struct OneDimensionalModel {
     lazy var xPoints:[Double] = Array.init(repeating: 0.0, count: numberOfSteps + 1)
     lazy var fPoints:[Double] = Array.init(repeating: 0.0, count: numberOfSteps + 1)
     
-    lazy var step:Double = abs((self.start - self.end) / Double(self.numberOfSteps))
+    lazy var step:Double = abs((end - start) / Double(numberOfSteps))
     
     init(startPoint a:Double, endPoint b:Double, numberOfSteps n:Int, function f:@escaping (Double) -> Double) {
         
@@ -36,7 +36,7 @@ struct OneDimensionalModel {
     }
     
     
-    mutating func findNulls() -> [Double] {
+    func findNulls() -> [Double] {
         
         var nulls: [Double] = []
         
@@ -67,13 +67,13 @@ struct OneDimensionalModel {
                 
                 if rk1 >= 1.0 && rk11 <= 1.0 {
                     
-                    if step > 0.0001 {
+                    if step > 0.001 {
+                        step /= 2
                         start -= step
-                        step /= 10
-                        start -= step
+
                     } else {
-                        if abs(function(self.start)) < step {
-                            nulls.append(self.start)
+                        if abs(function(start)) < step {
+                            nulls.append(start)
                             forthStep()
                             return
                         } else {
@@ -131,8 +131,7 @@ struct OneDimensionalModel {
                 if abs(1.0 - rik1) <= step && abs(1.0 - rik11) > step {
                     
                     if step > 0.0001 {
-                        start -= step
-                        step /= 10
+                        step /= 2
                         start -= step
                     } else {
                         nulls.append(start)
@@ -145,6 +144,39 @@ struct OneDimensionalModel {
             }
         }
         firstStep()        
+        
+        return nulls
+    }
+    
+    
+    func findNullsSimple() -> [Double] {
+        var nulls: [Double] = []
+        
+        while start < end {
+            
+            let ri = pow((1 + abs(function(start))) / (1 + abs(function(start + step))), 1 / step)
+            let ri1 = pow((1 + abs(function(start + step))) / (1 + abs(function(start + 2 * step))), 1 / step)
+            
+            print("ri = \(ri), ri+1 = \(ri1), x = \(start + step)")
+            
+            if ((ri >= 1.0 && ri1 < 1.0) || (ri > 1.0 && ri1 <= 1.0)) {
+                
+                //if abs(function(start + step)) < step {
+                    
+                    if (step > 0.001) {
+                        step /= 2
+                        start -= step
+                    } else {
+                        if abs(function(start + step)) < step {
+                            nulls.append(start + step)
+                        }
+                   }
+                //}
+             }
+            
+            start += step
+        }
+        
         
         return nulls
     }
