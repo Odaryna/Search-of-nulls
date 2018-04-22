@@ -8,6 +8,11 @@
 
 import Foundation
 
+struct FoundNull {
+    let x: Double
+    let y: Double
+}
+
 class OneDimensionalModel {
     
     var start:Double
@@ -16,7 +21,6 @@ class OneDimensionalModel {
     let function:(Double)->Double
     
     lazy var xPoints:[Double] = Array.init(repeating: 0.0, count: numberOfSteps + 1)
-    lazy var fPoints:[Double] = Array.init(repeating: 0.0, count: numberOfSteps + 1)
     
     lazy var step:Double = abs((end - start) / Double(numberOfSteps))
     
@@ -29,7 +33,7 @@ class OneDimensionalModel {
 
         var index = 0
         
-        for pointX in stride(from: a, to: b + step, by: step) {
+        for pointX in stride(from: a, to: b, by: step) {
             xPoints[index] = pointX
             index += 1
         }
@@ -149,30 +153,26 @@ class OneDimensionalModel {
     }
     
     
-    func findNullsSimple() -> [Double] {
-        var nulls: [Double] = []
+    func findNullsSimple() -> [FoundNull] {
+        var nulls: [FoundNull] = []
         
         while start < end {
             
             let ri = pow((1 + abs(function(start))) / (1 + abs(function(start + step))), 1 / step)
             let ri1 = pow((1 + abs(function(start + step))) / (1 + abs(function(start + 2 * step))), 1 / step)
             
-            print("ri = \(ri), ri+1 = \(ri1), x = \(start + step)")
-            
             if ((ri >= 1.0 && ri1 < 1.0) || (ri > 1.0 && ri1 <= 1.0)) {
                 
-                //if abs(function(start + step)) < step {
-                    
-                    if (step > 0.001) {
-                        step /= 2
-                        start -= step
-                    } else {
-                        if abs(function(start + step)) < step {
-                            nulls.append(start + step)
-                        }
-                   }
-                //}
-             }
+                if (step > 0.0001) {
+                    step /= 2
+                    start -= step
+                } else {
+                    //if abs(function(start + step)) < 0.0001 {
+                        nulls.append(FoundNull(x: start + step, y: function(start + step)))
+                        step = abs((xPoints.last! - xPoints.first!) / Double(numberOfSteps))
+                    //}
+                }
+            }
             
             start += step
         }

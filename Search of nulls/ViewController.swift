@@ -13,29 +13,26 @@ class ViewController: NSViewController {
     
     var graph: CPTGraph!
     var oneDimensionalModel: OneDimensionalModel!
-    var nullsFound: [Double]!
+    var nullsFound: [FoundNull]? = nil
+    
+    @IBOutlet weak var tableView: NSTableView! {
+        didSet {
+            tableView.delegate = self
+            tableView.dataSource = self
+        }
+    }
     
     private func function(_ x:Double) -> Double {
-        //return 16 * x * x * x * x * x - 20 * x * x * x + 5 * x
+        //return 2 * x * x - 1
         //return x * sin(x)
-        //return 8 * x * x * x * x - 8 * x * x + 1
-        //return 4 * x * x * x - 3 * x
-        return 2 * x * x - 1
+        return x * x * x + 3 * x * x - 1
     }
     
     @IBAction func calculateAction(_ sender: NSButton) {
         
-
-        
         oneDimensionalModel = OneDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), function: function)
-        
-        
-        
-        
-//        { x in
-//            16 * x * x * x * x * x - 20 * x * x * x + 5 * x
-//        }
-        nullsFound = oneDimensionalModel.findNullsSimple()
+         nullsFound = oneDimensionalModel.findNullsSimple()
+        tableView.reloadData()
         
         graph = CPTXYGraph(frame: NSRectToCGRect(plotView.bounds))
         let theme = CPTTheme(named: CPTThemeName.plainWhiteTheme)
@@ -43,8 +40,8 @@ class ViewController: NSViewController {
         graph.apply(theme)
         plotView.hostedGraph = graph
         
-        graph.plotAreaFrame?.paddingTop = 2.0
-        graph.plotAreaFrame?.paddingBottom = -2.0
+        graph.plotAreaFrame?.paddingTop = 10.0
+        graph.plotAreaFrame?.paddingBottom = -10.0
         graph.plotAreaFrame?.paddingRight = CGFloat(enterATextField.doubleValue)
         graph.plotAreaFrame?.paddingLeft = CGFloat(oneDimensionalModel.end)
         
@@ -64,8 +61,8 @@ class ViewController: NSViewController {
         yAxis?.labelTextStyle = textStyle
         
         let plotSpace = graph.defaultPlotSpace
-        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: (oneDimensionalModel.end + 5.0 as NSNumber)), for: .X)
-        plotSpace?.setPlotRange(CPTPlotRange(location: -2, length: 4), for: .Y)
+        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: (oneDimensionalModel.end + fabs(enterATextField.doubleValue) as NSNumber)), for: .X)
+        plotSpace?.setPlotRange(CPTPlotRange(location: -10, length: 20), for: .Y)
         
         let plot3 = CPTScatterPlot(frame: graph.bounds)
         plot3.title = "Function"
@@ -78,26 +75,10 @@ class ViewController: NSViewController {
         
         graph.add(plot3)
         
-//        graph.legendAnchor = .topLeft
-//        graph.legend = CPTLegend(graph: graph)
-//        graph.legend?.fill = CPTFill(color: .white())
-//        graph.legendDisplacement = CGPoint(x: -20.0, y: -30.0)
-//        let titleStyle = CPTMutableTextStyle()
-//
-//        titleStyle.color = CPTColor.lightGray()
-//        titleStyle.fontSize = 11.0
-//        graph.legend?.textStyle = titleStyle
-//
-//        let lineStyle = CPTMutableLineStyle()
-//        lineStyle.lineWidth = 0.5
-//        lineStyle.lineColor = CPTColor(genericGray: 0.45)
-//
-//        graph.legend?.borderLineStyle = lineStyle
-//        graph.legend?.cornerRadius = 5.0
+        graph.legend?.cornerRadius = 5.0
         
     }
-    
-    @IBOutlet weak var resultScrollView: NSScrollView!
+
     @IBOutlet weak var enterNTextField: NSTextField!
     @IBOutlet weak var enterBTextField: NSTextField!
     @IBOutlet weak var enterATextField: NSTextField!
@@ -106,7 +87,7 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        
         
     }
 
@@ -138,9 +119,51 @@ extension ViewController: CPTPlotDataSource {
         case .X:
             return oneDimensionalModel.xPoints[number]
         case .Y:
-            return sin(oneDimensionalModel.xPoints[number])
+            return function(oneDimensionalModel.xPoints[number])
         }
     }
+}
+
+extension ViewController: NSTableViewDataSource {
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return nullsFound?.count ?? 0
+    }
+}
+
+extension ViewController: NSTableViewDelegate {
+    
+    fileprivate enum CellIdentifiers {
+        static let XCell = "XCellID"
+        static let FCell = "FCellID"
+    }
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        
+        var text: String = ""
+        var cellIdentifier: String = ""
+        // 1
+        guard let item = nullsFound?[row] else {
+            return nil
+        }
+        
+        // 2
+        if tableColumn == tableView.tableColumns[0] {
+            text = String(format:"%.6f", item.x)
+            cellIdentifier = CellIdentifiers.XCell
+        } else if tableColumn == tableView.tableColumns[1] {
+            text = String(format:"%.6f", item.y)
+            cellIdentifier = CellIdentifiers.FCell
+        }
+        
+        // 3
+        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? NSTableCellView {
+            cell.textField?.stringValue = text
+            return cell
+        }
+        return nil
+    }
+    
 }
 
 
