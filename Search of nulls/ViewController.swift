@@ -15,6 +15,9 @@ class ViewController: NSViewController {
     var oneDimensionalModel: OneDimensionalModel!
     var nullsFound: [FoundNull]? = nil
     
+    private var maxFunctionPadding : Int = 10
+    private var minFunctionPadding : Int = -10
+    
     @IBOutlet weak var tableView: NSTableView! {
         didSet {
             tableView.delegate = self
@@ -23,9 +26,33 @@ class ViewController: NSViewController {
     }
     
     private func function(_ x:Double) -> Double {
+        return 16 * x * x * x * x * x - 20 * x * x * x + 5 * x
         //return 2 * x * x - 1
         //return x * sin(x)
-        return x * x * x + 3 * x * x - 1
+        
+        //return x * x * x + 3 * x * x - 1
+    }
+    
+    private func calculatePaddings() {
+        var max = function(oneDimensionalModel.xPoints[0])
+        for xPoint in oneDimensionalModel.xPoints {
+            if function(xPoint) > max {
+                max = function(xPoint)
+            }
+        }
+        if max < Double(maxFunctionPadding) {
+            maxFunctionPadding = Int(round(max) + 1.0)
+        }
+        
+        var min = function(oneDimensionalModel.xPoints[0])
+        for xPoint in oneDimensionalModel.xPoints {
+            if function(xPoint) < min {
+                min = xPoint
+            }
+        }
+        if min > Double(minFunctionPadding) {
+            minFunctionPadding = Int(floor(min) - 1.0)
+        }
     }
     
     @IBAction func calculateAction(_ sender: NSButton) {
@@ -33,6 +60,7 @@ class ViewController: NSViewController {
         oneDimensionalModel = OneDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), function: function)
          nullsFound = oneDimensionalModel.findNullsSimple()
         tableView.reloadData()
+        calculatePaddings()
         
         graph = CPTXYGraph(frame: NSRectToCGRect(plotView.bounds))
         let theme = CPTTheme(named: CPTThemeName.plainWhiteTheme)
@@ -40,8 +68,8 @@ class ViewController: NSViewController {
         graph.apply(theme)
         plotView.hostedGraph = graph
         
-        graph.plotAreaFrame?.paddingTop = 10.0
-        graph.plotAreaFrame?.paddingBottom = -10.0
+        graph.plotAreaFrame?.paddingTop = CGFloat(maxFunctionPadding)
+        graph.plotAreaFrame?.paddingBottom = CGFloat(minFunctionPadding)
         graph.plotAreaFrame?.paddingRight = CGFloat(enterATextField.doubleValue)
         graph.plotAreaFrame?.paddingLeft = CGFloat(oneDimensionalModel.end)
         
@@ -62,7 +90,7 @@ class ViewController: NSViewController {
         
         let plotSpace = graph.defaultPlotSpace
         plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: (oneDimensionalModel.end + fabs(enterATextField.doubleValue) as NSNumber)), for: .X)
-        plotSpace?.setPlotRange(CPTPlotRange(location: -10, length: 20), for: .Y)
+        plotSpace?.setPlotRange(CPTPlotRange(location: Double(minFunctionPadding) as NSNumber, length: Double(abs(minFunctionPadding) + abs(maxFunctionPadding)) as NSNumber), for: .Y)
         
         let plot3 = CPTScatterPlot(frame: graph.bounds)
         plot3.title = "Function"
@@ -75,8 +103,6 @@ class ViewController: NSViewController {
         
         graph.add(plot3)
         
-        graph.legend?.cornerRadius = 5.0
-        
     }
 
     @IBOutlet weak var enterNTextField: NSTextField!
@@ -87,13 +113,13 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        self.title = "Search of zeros"
         
     }
 
     override var representedObject: Any? {
         didSet {
-        // Update the view, if already loaded.
+            
         }
     }
 }
@@ -159,6 +185,7 @@ extension ViewController: NSTableViewDelegate {
         // 3
         if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? NSTableCellView {
             cell.textField?.stringValue = text
+            cell.textField?.alignment = .center
             return cell
         }
         return nil
