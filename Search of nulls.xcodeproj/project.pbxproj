@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		095DA7FD367A41D174E4C631 /* Pods_Search_of_nulls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE8B2ECD7A97D71AA8B7439 /* Pods_Search_of_nulls.framework */; };
 		0BDCD3EFD3A85C66416EB6F5 /* Pods_Search_of_nullsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F387D5F1B236772183EE9B93 /* Pods_Search_of_nullsTests.framework */; };
+		7D1A1FB320B185C5005A9AA2 /* SystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1A1FB220B185C5005A9AA2 /* SystemViewController.swift */; };
 		7D696027208C9FC1001CCD64 /* TwoDimensionalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D696026208C9FC1001CCD64 /* TwoDimensionalModel.swift */; };
 		7D69602B208CF9FC001CCD64 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D69602A208CF9FC001CCD64 /* TabViewController.swift */; };
 		7D90AB11202D05F60043A96D /* OneDimensionalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D90AB10202D05F60043A96D /* OneDimensionalModel.swift */; };
@@ -45,6 +46,7 @@
 		4C3B42DA5FB84A2F83C6A2C7 /* Pods-Search of nullsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nullsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nullsUITests/Pods-Search of nullsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		531021DED8AFF543AC0E006F /* Pods-Search of nullsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nullsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nullsUITests/Pods-Search of nullsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5FCB5EC938C60EA027CB42D2 /* Pods-Search of nullsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search of nullsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Search of nullsTests/Pods-Search of nullsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7D1A1FB220B185C5005A9AA2 /* SystemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemViewController.swift; sourceTree = "<group>"; };
 		7D696026208C9FC1001CCD64 /* TwoDimensionalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoDimensionalModel.swift; sourceTree = "<group>"; };
 		7D69602A208CF9FC001CCD64 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		7D90AB10202D05F60043A96D /* OneDimensionalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDimensionalModel.swift; sourceTree = "<group>"; };
@@ -126,8 +128,9 @@
 				7DD374BC1FAB4A6B0017FB03 /* Search_of_nulls.entitlements */,
 				7D90AB10202D05F60043A96D /* OneDimensionalModel.swift */,
 				7D696026208C9FC1001CCD64 /* TwoDimensionalModel.swift */,
-				7DD374B41FAB4A6B0017FB03 /* ViewController.swift */,
 				7D69602A208CF9FC001CCD64 /* TabViewController.swift */,
+				7DD374B41FAB4A6B0017FB03 /* ViewController.swift */,
+				7D1A1FB220B185C5005A9AA2 /* SystemViewController.swift */,
 			);
 			path = "Search of nulls";
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 				7DD374B51FAB4A6B0017FB03 /* ViewController.swift in Sources */,
 				7D90AB11202D05F60043A96D /* OneDimensionalModel.swift in Sources */,
 				7D696027208C9FC1001CCD64 /* TwoDimensionalModel.swift in Sources */,
+				7D1A1FB320B185C5005A9AA2 /* SystemViewController.swift in Sources */,
 				7D69602B208CF9FC001CCD64 /* TabViewController.swift in Sources */,
 				7DD374B31FAB4A6B0017FB03 /* AppDelegate.swift in Sources */,
 			);

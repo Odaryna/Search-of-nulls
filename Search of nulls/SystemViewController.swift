@@ -1,19 +1,19 @@
 //
-//  ViewController.swift
+//  SystemViewController.swift
 //  Search of nulls
 //
-//  Created by Odaryna on 11/2/17.
-//  Copyright © 2017 Odaryna. All rights reserved.
+//  Created by Odaryna on 5/20/18.
+//  Copyright © 2018 Odaryna. All rights reserved.
 //
 
 import Cocoa
 import CorePlot
 
-class ViewController: NSViewController {
-    
+class SystemViewController: NSTabViewController {
+
     var graph: CPTGraph!
-    var oneDimensionalModel: OneDimensionalModel!
-    var nullsFound: [FoundNull]? = nil
+    var twoDimensionalModel: TwoDimensionalModel!
+    var nullsFound: [FoundTwoDimensionalNull]? = nil
     
     private var maxFunctionPadding : Int = 10
     private var minFunctionPadding : Int = -10
@@ -25,28 +25,37 @@ class ViewController: NSViewController {
         }
     }
     
-    private func function(_ x:Double) -> Double {
-        return 16 * x * x * x * x * x - 20 * x * x * x + 5 * x
-        //return 2 * x * x - 1
-        //return x * sin(x)
-        
-        //return x * x * x + 3 * x * x - 1
+    private func firstFunction(_ x:Double) -> Double {
+        return 2 - x
     }
     
+    private func secondFunction(_ x:Double) -> Double {
+        return x + 1
+    }
+    
+    private func systemFunction(_ x:Double, y: Double) -> Double {
+        return abs(x + y - 2) + abs(x - y + 1)
+    }
+    
+    @IBOutlet weak var plotView: CPTGraphHostingView!
+    @IBOutlet weak var enterATextField: NSTextField!
+    @IBOutlet weak var enterNTextField: NSTextField!
+    @IBOutlet weak var enterBTextField: NSTextField!
+    
     private func calculatePaddings() {
-        var max = function(oneDimensionalModel.xPoints[0])
-        for xPoint in oneDimensionalModel.xPoints {
-            if function(xPoint) > max {
-                max = function(xPoint)
+        var max = firstFunction(twoDimensionalModel.xPoints[0])
+        for xPoint in twoDimensionalModel.xPoints {
+            if firstFunction(xPoint) > max {
+                max = firstFunction(xPoint)
             }
         }
         if max < Double(maxFunctionPadding) {
             maxFunctionPadding = Int(round(max) + 1.0)
         }
         
-        var min = function(oneDimensionalModel.xPoints[0])
-        for xPoint in oneDimensionalModel.xPoints {
-            if function(xPoint) < min {
+        var min = firstFunction(twoDimensionalModel.xPoints[0])
+        for xPoint in twoDimensionalModel.xPoints {
+            if firstFunction(xPoint) < min {
                 min = xPoint
             }
         }
@@ -55,10 +64,10 @@ class ViewController: NSViewController {
         }
     }
     
-    @IBAction func calculateAction(_ sender: NSButton) {
+    @IBAction func calculateTapped(_ sender: NSButton) {
+        twoDimensionalModel = TwoDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, secondStartPoint: enterATextField.doubleValue, secondEndPoint: enterBTextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), function:systemFunction)
         
-        oneDimensionalModel = OneDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), function: function)
-         nullsFound = oneDimensionalModel.findNullsSimple()
+        nullsFound = twoDimensionalModel.findNullsSimple()
         tableView.reloadData()
         calculatePaddings()
         
@@ -71,7 +80,7 @@ class ViewController: NSViewController {
         graph.plotAreaFrame?.paddingTop = CGFloat(maxFunctionPadding)
         graph.plotAreaFrame?.paddingBottom = CGFloat(minFunctionPadding)
         graph.plotAreaFrame?.paddingRight = CGFloat(enterATextField.doubleValue)
-        graph.plotAreaFrame?.paddingLeft = CGFloat(oneDimensionalModel.end)
+        graph.plotAreaFrame?.paddingLeft = CGFloat(twoDimensionalModel.firstEnd)
         
         let textStyle = CPTMutableTextStyle()
         textStyle.fontSize = 12
@@ -89,11 +98,11 @@ class ViewController: NSViewController {
         yAxis?.labelTextStyle = textStyle
         
         let plotSpace = graph.defaultPlotSpace
-        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: (oneDimensionalModel.end + fabs(enterATextField.doubleValue) as NSNumber)), for: .X)
+        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: (twoDimensionalModel.firstEnd + fabs(enterATextField.doubleValue) as NSNumber)), for: .X)
         plotSpace?.setPlotRange(CPTPlotRange(location: Double(minFunctionPadding) as NSNumber, length: Double(abs(minFunctionPadding) + abs(maxFunctionPadding)) as NSNumber), for: .Y)
         
         let plot3 = CPTScatterPlot(frame: graph.bounds)
-        plot3.title = "Function"
+        plot3.title = "First function"
         plot3.dataSource = self
         
         let lineStyle3 = CPTMutableLineStyle()
@@ -103,36 +112,29 @@ class ViewController: NSViewController {
         
         graph.add(plot3)
         
-    }
-
-    @IBOutlet weak var enterNTextField: NSTextField!
-    @IBOutlet weak var enterBTextField: NSTextField!
-    @IBOutlet weak var enterATextField: NSTextField!
-    @IBOutlet var plotView: CPTGraphHostingView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        let plot4 = CPTScatterPlot(frame: graph.bounds)
+        plot4.title = "Second function"
+        plot4.dataSource = self
         
-       
+        let lineStyle4 = CPTMutableLineStyle()
+        lineStyle4.lineColor = CPTColor.red()
+        lineStyle4.lineWidth = 2.0
+        plot4.dataLineStyle = lineStyle4
         
-    }
-
-    override var representedObject: Any? {
-        didSet {
-            
-        }
+        graph.add(plot4)
+        
     }
 }
 
-extension ViewController: CPTPlotDataSource {
+extension SystemViewController: CPTPlotDataSource {
     
     func numberOfRecords(for plot: CPTPlot) -> UInt {
-        return UInt(oneDimensionalModel.numberOfSteps)
+        return UInt(twoDimensionalModel.numberOfSteps)
     }
     
     func number(for plot: CPTPlot, field: UInt, record: UInt) -> Any? {
         guard
-            //let title = plot.title,
+            let title = plot.title,
             let field =  CPTScatterPlotField(rawValue: Int(field))
             
             else {
@@ -143,24 +145,25 @@ extension ViewController: CPTPlotDataSource {
         
         switch field {
         case .X:
-            return oneDimensionalModel.xPoints[number]
+            return twoDimensionalModel.xPoints[number]
         case .Y:
-            return function(oneDimensionalModel.xPoints[number])
+            return title == "First function" ? firstFunction(twoDimensionalModel.xPoints[number]) : secondFunction(twoDimensionalModel.xPoints[number])
         }
     }
 }
 
-extension ViewController: NSTableViewDataSource {
+extension SystemViewController: NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         return nullsFound?.count ?? 0
     }
 }
 
-extension ViewController: NSTableViewDelegate {
+extension SystemViewController: NSTableViewDelegate {
     
     fileprivate enum CellIdentifiers {
         static let XCell = "XCellID"
+        static let YCell = "YCellID"
         static let FCell = "FCellID"
     }
     
@@ -180,6 +183,9 @@ extension ViewController: NSTableViewDelegate {
         } else if tableColumn == tableView.tableColumns[1] {
             text = String(format:"%.6f", item.y)
             cellIdentifier = CellIdentifiers.FCell
+        } else if tableColumn == tableView.tableColumns[2] {
+            text = String(format:"%.6f", item.f)
+            cellIdentifier = CellIdentifiers.FCell
         }
         
         // 3
@@ -192,5 +198,4 @@ extension ViewController: NSTableViewDelegate {
     }
     
 }
-
 

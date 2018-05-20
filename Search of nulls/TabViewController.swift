@@ -12,7 +12,8 @@ class TabViewController: NSTabViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do view setup here.
+        
+         self.title = "Search of zeros"
     }
     
 }

@@ -8,6 +8,12 @@
 
 import Foundation
 
+struct FoundTwoDimensionalNull {
+    let x: Double
+    let y: Double
+    let f: Double
+}
+
 class TwoDimensionalModel {
     
     typealias FoundedNull = (Double, Double, Double)
@@ -17,13 +23,15 @@ class TwoDimensionalModel {
         let model: OneDimensionalModel
     }
     
-    let firstStart: Double
+    var firstStart: Double
     let firstEnd: Double
-    let secondStart: Double
+    var secondStart: Double
     let secondEnd: Double
     let numberOfSteps: Int
     
     let twoDimensionalFunction:(Double, Double) -> Double
+    
+    lazy var xPoints:[Double] = Array.init(repeating: 0.0, count: numberOfSteps + 1)
     
     lazy var step:Double = abs((secondEnd - secondStart) / Double(numberOfSteps))
 
@@ -35,22 +43,41 @@ class TwoDimensionalModel {
         numberOfSteps = n
         twoDimensionalFunction = f
         
-        setupModells()
+        var index = 0
+        
+        for pointX in stride(from: a1, to: b1, by: step) {
+            xPoints[index] = pointX
+            index += 1
+        }
     }
     
-    func findNulls() -> [FoundedNull] {
-        let nulls : [FoundedNull] = []
+    func findNulls() -> [FoundTwoDimensionalNull] {
+        let nulls : [FoundTwoDimensionalNull] = []
         
         return nulls
     }
     
-    func findNullsSimple() -> [FoundedNull] {
-        let nulls : [FoundedNull] = []
+    func findNullsSimple() -> [FoundTwoDimensionalNull] {
+        var nulls : [FoundTwoDimensionalNull] = []
+        
+        while firstStart <= firstEnd {
+            
+            let oneDimensionalModel = OneDimensionalModel(startPoint: secondStart, endPoint: secondEnd, numberOfSteps: numberOfSteps) { x -> Double in
+                return self.twoDimensionalFunction(self.firstStart , x)
+            }
+            
+            let foundNulls = oneDimensionalModel.findNullsSimple()
+            
+            for foundNull in foundNulls {
+                nulls.append(FoundTwoDimensionalNull(x: firstStart, y: foundNull.x, f: foundNull.y))
+            }
+            firstStart += step
+        }
         
         return nulls
     }
     
     private func setupModells() {
-        
+
     }
 }

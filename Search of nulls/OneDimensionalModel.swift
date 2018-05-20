@@ -163,14 +163,14 @@ class OneDimensionalModel {
             
             if ((ri >= 1.0 && ri1 < 1.0) || (ri > 1.0 && ri1 <= 1.0)) {
                 
-                if (step > 0.0001) {
+                if (step > 0.001) {
                     step /= 2
                     start -= step
                 } else {
-                    //if abs(function(start + step)) < 0.0001 {
+                    if abs(function(start + step)) < 0.01 {
                         nulls.append(FoundNull(x: start + step, y: function(start + step)))
                         step = abs((xPoints.last! - xPoints.first!) / Double(numberOfSteps))
-                    //}
+                    }
                 }
             }
             
