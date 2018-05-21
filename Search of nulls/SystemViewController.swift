@@ -26,15 +26,18 @@ class SystemViewController: NSTabViewController {
     }
     
     private func firstFunction(_ x:Double) -> Double {
-        return 2 - x
+        //return 2 - x
+        return 4 - 2 * x
     }
     
     private func secondFunction(_ x:Double) -> Double {
-        return x + 1
+        //return x + 1
+        return (13 - 3 * x) / 5
     }
     
     private func systemFunction(_ x:Double, y: Double) -> Double {
-        return abs(x + y - 2) + abs(x - y + 1)
+        //return abs(x + y - 2) + abs(x - y + 1)
+        return abs(2 * x + y - 4) + abs(3 * x + 5 * y - 13)
     }
     
     @IBOutlet weak var plotView: CPTGraphHostingView!
@@ -52,7 +55,7 @@ class SystemViewController: NSTabViewController {
         if max < Double(maxFunctionPadding) {
             maxFunctionPadding = Int(round(max) + 1.0)
         }
-        
+
         var min = firstFunction(twoDimensionalModel.xPoints[0])
         for xPoint in twoDimensionalModel.xPoints {
             if firstFunction(xPoint) < min {
@@ -107,7 +110,7 @@ class SystemViewController: NSTabViewController {
         
         let lineStyle3 = CPTMutableLineStyle()
         lineStyle3.lineColor = CPTColor.blue()
-        lineStyle3.lineWidth = 2.0
+        lineStyle3.lineWidth = 1.5
         plot3.dataLineStyle = lineStyle3
         
         graph.add(plot3)
@@ -118,7 +121,7 @@ class SystemViewController: NSTabViewController {
         
         let lineStyle4 = CPTMutableLineStyle()
         lineStyle4.lineColor = CPTColor.red()
-        lineStyle4.lineWidth = 2.0
+        lineStyle4.lineWidth = 1.5
         plot4.dataLineStyle = lineStyle4
         
         graph.add(plot4)

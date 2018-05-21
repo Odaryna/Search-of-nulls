@@ -60,18 +60,16 @@ class TwoDimensionalModel {
     func findNullsSimple() -> [FoundTwoDimensionalNull] {
         var nulls : [FoundTwoDimensionalNull] = []
         
-        while firstStart <= firstEnd {
+        for xPoint in xPoints {
             
             let oneDimensionalModel = OneDimensionalModel(startPoint: secondStart, endPoint: secondEnd, numberOfSteps: numberOfSteps) { x -> Double in
-                return self.twoDimensionalFunction(self.firstStart , x)
+                return self.twoDimensionalFunction(xPoint, x)
             }
             
             let foundNulls = oneDimensionalModel.findNullsSimple()
-            
             for foundNull in foundNulls {
-                nulls.append(FoundTwoDimensionalNull(x: firstStart, y: foundNull.x, f: foundNull.y))
+                nulls.append(FoundTwoDimensionalNull(x: xPoint, y: foundNull.x, f: foundNull.y))
             }
-            firstStart += step
         }
         
         return nulls

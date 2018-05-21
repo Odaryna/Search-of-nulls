@@ -33,7 +33,7 @@ class OneDimensionalModel {
 
         var index = 0
         
-        for pointX in stride(from: a, to: b, by: step) {
+        for pointX in stride(from: a, to: b + step, by: step) {
             xPoints[index] = pointX
             index += 1
         }
@@ -169,8 +169,8 @@ class OneDimensionalModel {
                 } else {
                     if abs(function(start + step)) < 0.01 {
                         nulls.append(FoundNull(x: start + step, y: function(start + step)))
-                        step = abs((xPoints.last! - xPoints.first!) / Double(numberOfSteps))
                     }
+                    step = abs((xPoints.last! - xPoints.first!) / Double(numberOfSteps))
                 }
             }
             

@@ -98,7 +98,7 @@ class ViewController: NSViewController {
         
         let lineStyle3 = CPTMutableLineStyle()
         lineStyle3.lineColor = CPTColor.blue()
-        lineStyle3.lineWidth = 2.0
+        lineStyle3.lineWidth = 1.5
         plot3.dataLineStyle = lineStyle3
         
         graph.add(plot3)
