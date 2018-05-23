@@ -9,14 +9,14 @@
 import Cocoa
 import CorePlot
 
-class SystemViewController: NSTabViewController {
+class SystemViewController: NSViewController {
 
     var graph: CPTGraph!
     var twoDimensionalModel: TwoDimensionalModel!
     var nullsFound: [FoundTwoDimensionalNull]? = nil
     
-    private var maxFunctionPadding : Int = 10
-    private var minFunctionPadding : Int = -10
+    private var maxFunctionPadding : Int = -10
+    private var minFunctionPadding : Int = 10
     
     @IBOutlet weak var tableView: NSTableView! {
         didSet {
@@ -27,17 +27,30 @@ class SystemViewController: NSTabViewController {
     
     private func firstFunction(_ x:Double) -> Double {
         //return 2 - x
-        return 4 - 2 * x
+        let const = log(2 * Double.pi)
+        return (2 * x - 1) / (log(x) + const - 1)
     }
     
     private func secondFunction(_ x:Double) -> Double {
         //return x + 1
-        return (13 - 3 * x) / 5
+        
+        if x == 0 {
+            return 0.0
+        }
+        
+        let const = log(2 * Double.pi)
+        let radius = log(x) + const - 1
+        return x + 1 - sqrt((2 * x - 2) * (2 * x - 2) + 4 * radius / x)
     }
     
     private func systemFunction(_ x:Double, y: Double) -> Double {
         //return abs(x + y - 2) + abs(x - y + 1)
-        return abs(2 * x + y - 4) + abs(3 * x + 5 * y - 13)
+        let const = log(2 * Double.pi)
+        let f = abs(y - (2 * x - 1) / (log(x) + const - 1))
+        let radius = Double(twoDimensionalModel.numberOfSteps) * (log(x) + const - 1)
+        let g = abs(x * y * (2 * x + y - 2) - radius)
+        
+        return f + g
     }
     
     @IBOutlet weak var plotView: CPTGraphHostingView!

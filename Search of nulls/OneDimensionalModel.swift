@@ -33,7 +33,7 @@ class OneDimensionalModel {
 
         var index = 0
         
-        for pointX in stride(from: a, to: b + step, by: step) {
+        for pointX in stride(from: a, to: b, by: step) {
             xPoints[index] = pointX
             index += 1
         }
@@ -155,6 +155,12 @@ class OneDimensionalModel {
     
     func findNullsSimple() -> [FoundNull] {
         var nulls: [FoundNull] = []
+        
+        if abs(function(start)) < step {
+            nulls.append(FoundNull(x: start, y: function(start)))
+        } else if abs(function(end)) < step {
+            nulls.append(FoundNull(x: end, y: function(end)))
+        }
         
         while start < end {
             
