@@ -198,7 +198,7 @@ class SystemViewController: NSViewController {
         graph.legend?.cornerRadius = 5.0
     }
 
-    override func viewWillAppear() {
+    override func viewWillDisappear() {
         GraphManager.shared.resetValues()
     }
 }

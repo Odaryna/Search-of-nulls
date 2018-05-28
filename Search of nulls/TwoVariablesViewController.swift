@@ -13,7 +13,6 @@ class TwoVariablesViewController: NSViewController {
 
     var graph: CPTGraph!
     var twoDimensionalModel: TwoDimensionalModel!
-    var nullsFound: [FoundTwoDimensionalNull]? = nil
     
     private var maxFunctionPadding : Int = 10
     private var minFunctionPadding : Int = -10
@@ -38,38 +37,15 @@ class TwoVariablesViewController: NSViewController {
     @IBOutlet weak var enterBTextField: NSTextField!
     @IBOutlet weak var enterA2TextField: NSTextField!
     @IBOutlet weak var enterB2TextField: NSTextField!
+    @IBOutlet weak var enterN2TextField: NSTextField!
     
-    private func calculatePaddings() {
-        var max = nullsFound![0].x
-        for null in nullsFound! {
-            if null.x > max {
-                max = null.x
-            }
-        }
-        if max < Double(maxFunctionPadding) {
-            maxFunctionPadding = Int(round(max) + 1.0)
-        }
-        
-        var min = nullsFound![0].x
-        for null in nullsFound! {
-            if null.x < min {
-                min = null.x
-            }
-        }
-        if min > Double(minFunctionPadding) {
-            minFunctionPadding = Int(floor(min) - 1.0)
-        }
-    }
     
     @IBAction func calculateTapped(_ sender: NSButton) {
         twoDimensionalModel = TwoDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, secondStartPoint: enterA2TextField.doubleValue, secondEndPoint: enterB2TextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), secondNumberOfSteps: Int(enterNTextField.intValue), function:function)
         
-        nullsFound = twoDimensionalModel.findNullsSimple()
+        GraphManager.shared.modelType = .twodimensional
+        GraphManager.shared.foundTwoDimensionalNulls = twoDimensionalModel.findNullsSimple()
         tableView.reloadData()
-        
-        if (nullsFound?.count)! > 0 {
-            calculatePaddings()
-        }
         
         graph = CPTXYGraph(frame: NSRectToCGRect(plotView.bounds))
         let theme = CPTTheme(named: CPTThemeName.plainWhiteTheme)
@@ -79,11 +55,14 @@ class TwoVariablesViewController: NSViewController {
         
         graph.plotAreaFrame?.paddingTop = CGFloat(maxFunctionPadding)
         graph.plotAreaFrame?.paddingBottom = CGFloat(minFunctionPadding)
-        graph.plotAreaFrame?.paddingRight = CGFloat(enterATextField.doubleValue)
-        graph.plotAreaFrame?.paddingLeft = CGFloat(twoDimensionalModel.firstEnd)
+        graph.plotAreaFrame?.paddingRight = CGFloat(-5.0)
+        graph.plotAreaFrame?.paddingLeft = CGFloat(5.0)
+        
+        graph.plotAreaFrame?.cornerRadius = 5.0
         
         let textStyle = CPTMutableTextStyle()
-        textStyle.fontSize = 12
+        textStyle.fontSize = 10
+        textStyle.color = CPTColor.darkGray()
         
         let axisSet: CPTXYAxisSet = graph.axisSet as! CPTXYAxisSet
         
@@ -101,19 +80,45 @@ class TwoVariablesViewController: NSViewController {
         plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: (twoDimensionalModel.firstEnd + fabs(enterATextField.doubleValue) as NSNumber)), for: .X)
         plotSpace?.setPlotRange(CPTPlotRange(location: Double(minFunctionPadding) as NSNumber, length: Double(abs(minFunctionPadding) + abs(maxFunctionPadding)) as NSNumber), for: .Y)
         
-        let plot3 = CPTScatterPlot(frame: graph.bounds)
-        plot3.title = "First function"
-        plot3.dataSource = self
+        let plotForNulls = CPTScatterPlot(frame: graph.bounds)
+        plotForNulls.title = GraphManager.shared.functionIdentifiers[0]
+        plotForNulls.dataSource = self
         
-        let lineStyle3 = CPTMutableLineStyle()
-        lineStyle3.lineColor = CPTColor.blue()
-        lineStyle3.lineWidth = 1.5
-        plot3.dataLineStyle = lineStyle3
+        let plotForNullsLineStyle = CPTMutableLineStyle()
+        plotForNullsLineStyle.lineColor = CPTColor.clear()
+        plotForNulls.dataLineStyle = plotForNullsLineStyle
         
-        graph.add(plot3)
+        graph.add(plotForNulls)
+        
+        let symbolLineStyle = CPTMutableLineStyle()
+        symbolLineStyle.lineColor = CPTColor.red()
+        let plotSymbol = CPTPlotSymbol()
+        plotSymbol.symbolType = .ellipse
+        plotSymbol.fill = CPTFill(color: .red())
+        plotSymbol.lineStyle = symbolLineStyle
+        plotSymbol.size = CGSize(width: 5.0, height: 5.0)
+        plotForNulls.plotSymbol = plotSymbol
+        
+        graph.legendAnchor = .topLeft
+        graph.legend = CPTLegend(graph: graph)
+        graph.legend?.fill = CPTFill(color: .white())
+        graph.legendDisplacement = CGPoint(x: 40.0, y: -40.0)
+        graph.legend?.numberOfRows = 1
+        let titleStyle = CPTMutableTextStyle()
+        
+        titleStyle.color = CPTColor.darkGray()
+        titleStyle.fontSize = 10.0
+        graph.legend?.textStyle = titleStyle
+        
+        let lineStyle = CPTMutableLineStyle()
+        lineStyle.lineWidth = 0.75
+        lineStyle.lineColor = CPTColor(genericGray: 0.45)
+        
+        graph.legend?.borderLineStyle = lineStyle
+        graph.legend?.cornerRadius = 5.0
     }
     
-    override func viewWillAppear() {
+    override func viewWillDisappear() {
         GraphManager.shared.resetValues()
     }
 }
@@ -121,24 +126,22 @@ class TwoVariablesViewController: NSViewController {
 extension TwoVariablesViewController: CPTPlotDataSource {
     
     func numberOfRecords(for plot: CPTPlot) -> UInt {
-        return UInt((nullsFound?.count)!)
+        return GraphManager.shared.numberOfRecords(title: plot.title!)
     }
     
     func number(for plot: CPTPlot, field: UInt, record: UInt) -> Any? {
         guard
+            let title = plot.title,
             let field =  CPTScatterPlotField(rawValue: Int(field))
             
             else {
                 return nil
         }
-        
-        let number:Int = Int(record)
-        
         switch field {
         case .X:
-            return nullsFound![number].x
+            return GraphManager.shared.xValueForPlot(title, with: record)
         case .Y:
-            return nullsFound![number].y
+            return GraphManager.shared.yValueForPlot(title, with: record)
         }
     }
 }
@@ -146,7 +149,7 @@ extension TwoVariablesViewController: CPTPlotDataSource {
 extension TwoVariablesViewController: NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return nullsFound?.count ?? 0
+        return GraphManager.shared.foundTwoDimensionalNulls.count
     }
 }
 
@@ -163,19 +166,16 @@ extension TwoVariablesViewController: NSTableViewDelegate {
         var text: String = ""
         var cellIdentifier: String = ""
         // 1
-        guard let item = nullsFound?[row] else {
-            return nil
-        }
-        
+        let item = GraphManager.shared.foundTwoDimensionalNulls[row]
         // 2
         if tableColumn == tableView.tableColumns[0] {
-            text = String(format:"%.6f", item.x)
+            text = String(format:"%.4f", item.x)
             cellIdentifier = CellIdentifiers.XCell
         } else if tableColumn == tableView.tableColumns[1] {
-            text = String(format:"%.6f", item.y)
-            cellIdentifier = CellIdentifiers.FCell
+            text = String(format:"%.4f", item.y)
+            cellIdentifier = CellIdentifiers.YCell
         } else if tableColumn == tableView.tableColumns[2] {
-            text = String(format:"%.6f", item.f)
+            text = String(format:"%.4f", item.f)
             cellIdentifier = CellIdentifiers.FCell
         }
         

@@ -20,7 +20,7 @@ class OneDimensionalModel {
     let numberOfSteps:Int
     let function:(Double)->Double
     
-    lazy var xPoints:[Double] = Array.init(repeating: 0.0, count: numberOfSteps + 1)
+    lazy var xPoints = [Double]()
     
     lazy var step:Double = abs((end - start) / Double(numberOfSteps))
     
@@ -31,11 +31,8 @@ class OneDimensionalModel {
         numberOfSteps = n
         function = f
 
-        var index = 0
-        
         for pointX in stride(from: a, to: b + step, by: step) {
-            xPoints[index] = pointX
-            index += 1
+            xPoints.append(pointX)
         }
     }
     

@@ -27,7 +27,7 @@ class ViewController: NSViewController {
     
     private func function(_ x:Double) -> Double {
         //return sin(x) + cos(sqrt(3.0) * x)
-        return 16 * x * x * x * x * x - 20 * x * x * x + 5 * x
+        //return 16 * x * x * x * x * x - 20 * x * x * x + 5 * x
         //return 2 * x * x - 1
         //return x * sin(x)
         
@@ -35,6 +35,9 @@ class ViewController: NSViewController {
         
 //        let const = log(2 * Double.pi)
 //        return 37.18 - (2 * x - 1) / (log(x) + const - 1)
+        
+        return x * x * x
+
     }
     
     private func calculatePaddings() {
@@ -81,7 +84,7 @@ class ViewController: NSViewController {
         GraphManager.shared.yValues = [PlotTypeSystem.firstFunction: yPoints]
         
         tableView.reloadData()
-        calculatePaddings()
+        //calculatePaddings()
         
         graph = CPTXYGraph(frame: NSRectToCGRect(plotView.bounds))
         let theme = CPTTheme(named: CPTThemeName.plainWhiteTheme)
@@ -102,7 +105,7 @@ class ViewController: NSViewController {
         let axisSet: CPTXYAxisSet = graph.axisSet as! CPTXYAxisSet
         
         let xAxis = axisSet.xAxis
-        xAxis?.majorIntervalLength = 1.0
+        xAxis?.majorIntervalLength = enterNTextField.intValue as NSNumber
         xAxis?.labelingPolicy = .fixedInterval
         xAxis?.labelTextStyle = textStyle
         
@@ -112,7 +115,7 @@ class ViewController: NSViewController {
         yAxis?.labelTextStyle = textStyle
         
         let plotSpace = graph.defaultPlotSpace
-        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: fabs(enterBTextField.doubleValue) + fabs(enterATextField.doubleValue) as NSNumber), for: .X)
+        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: enterBTextField.doubleValue - enterATextField.doubleValue as NSNumber), for: .X)
         plotSpace?.setPlotRange(CPTPlotRange(location: Double(minFunctionPadding) as NSNumber, length: Double(abs(minFunctionPadding) + abs(maxFunctionPadding)) as NSNumber), for: .Y)
         
         let plot3 = CPTScatterPlot(frame: graph.bounds)
@@ -170,7 +173,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var enterATextField: NSTextField!
     @IBOutlet var plotView: CPTGraphHostingView!
     
-    override func viewWillAppear() {
+    override func viewWillDisappear() {
         GraphManager.shared.resetValues()
     }
 
