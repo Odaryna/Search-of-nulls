@@ -15,8 +15,8 @@ class ViewController: NSViewController {
     var graph: CPTGraph!
     var oneDimensionalModel: OneDimensionalModel!
     
-    private var maxFunctionPadding : Int = 104
-    private var minFunctionPadding : Int = 100
+    private var maxFunctionPadding : Int = 10
+    private var minFunctionPadding : Int = -10
     
     @IBOutlet weak var tableView: NSTableView! {
         didSet {
@@ -27,7 +27,7 @@ class ViewController: NSViewController {
     
     private func function(_ x:Double) -> Double {
         //return sin(x) + cos(sqrt(3.0) * x)
-        //return 16 * x * x * x * x * x - 20 * x * x * x + 5 * x
+        return 16 * x * x * x * x * x - 20 * x * x * x + 5 * x
         //return 2 * x * x - 1
         //return x * sin(x)
         
@@ -35,10 +35,6 @@ class ViewController: NSViewController {
         
 //        let const = log(2 * Double.pi)
 //        return 37.18 - (2 * x - 1) / (log(x) + const - 1)
-        
-        let const = log(2 * Double.pi)
-        let radius = log(x) + const - 1
-        return 74.36 * x * x + 1308 * x - 100000 * radius
     }
     
     private func calculatePaddings() {
@@ -116,7 +112,7 @@ class ViewController: NSViewController {
         yAxis?.labelTextStyle = textStyle
         
         let plotSpace = graph.defaultPlotSpace
-        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: (fabs(enterBTextField.doubleValue) + fabs(enterATextField.doubleValue) as NSNumber)), for: .X)
+        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: fabs(enterBTextField.doubleValue) + fabs(enterATextField.doubleValue) as NSNumber), for: .X)
         plotSpace?.setPlotRange(CPTPlotRange(location: Double(minFunctionPadding) as NSNumber, length: Double(abs(minFunctionPadding) + abs(maxFunctionPadding)) as NSNumber), for: .Y)
         
         let plot3 = CPTScatterPlot(frame: graph.bounds)
