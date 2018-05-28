@@ -28,7 +28,8 @@ class TwoVariablesViewController: NSViewController {
     private func function(_ x:Double, y: Double) -> Double {
         //return abs(x + y - 2) + abs(x - y + 1)
         //return abs(2 * x + y - 4) + abs(3 * x + 5 * y - 13)
-        return x * x - 2 * x + sin(x + y)
+        //return x * x - 2 * x + sin(x + y)
+        return sin(x) * cos(y)
     }
     
     @IBOutlet weak var plotView: CPTGraphHostingView!
@@ -61,7 +62,7 @@ class TwoVariablesViewController: NSViewController {
     }
     
     @IBAction func calculateTapped(_ sender: NSButton) {
-        twoDimensionalModel = TwoDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, secondStartPoint: enterA2TextField.doubleValue, secondEndPoint: enterB2TextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), function:function)
+        twoDimensionalModel = TwoDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, secondStartPoint: enterA2TextField.doubleValue, secondEndPoint: enterB2TextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), secondNumberOfSteps: Int(enterNTextField.intValue), function:function)
         
         nullsFound = twoDimensionalModel.findNullsSimple()
         tableView.reloadData()
@@ -110,7 +111,10 @@ class TwoVariablesViewController: NSViewController {
         plot3.dataLineStyle = lineStyle3
         
         graph.add(plot3)
-        
+    }
+    
+    override func viewWillAppear() {
+        GraphManager.shared.resetValues()
     }
 }
 

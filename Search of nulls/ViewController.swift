@@ -9,14 +9,14 @@
 import Cocoa
 import CorePlot
 
+
 class ViewController: NSViewController {
     
     var graph: CPTGraph!
     var oneDimensionalModel: OneDimensionalModel!
-    var nullsFound: [FoundNull]? = nil
     
-    private var maxFunctionPadding : Int = 10
-    private var minFunctionPadding : Int = -10
+    private var maxFunctionPadding : Int = 104
+    private var minFunctionPadding : Int = 100
     
     @IBOutlet weak var tableView: NSTableView! {
         didSet {
@@ -26,12 +26,19 @@ class ViewController: NSViewController {
     }
     
     private func function(_ x:Double) -> Double {
-        return sin(x) + cos(sqrt(3.0) * x)
+        //return sin(x) + cos(sqrt(3.0) * x)
         //return 16 * x * x * x * x * x - 20 * x * x * x + 5 * x
         //return 2 * x * x - 1
         //return x * sin(x)
         
         //return x * x * x + 3 * x * x - 1
+        
+//        let const = log(2 * Double.pi)
+//        return 37.18 - (2 * x - 1) / (log(x) + const - 1)
+        
+        let const = log(2 * Double.pi)
+        let radius = log(x) + const - 1
+        return 74.36 * x * x + 1308 * x - 100000 * radius
     }
     
     private func calculatePaddings() {
@@ -59,23 +66,42 @@ class ViewController: NSViewController {
     @IBAction func calculateAction(_ sender: NSButton) {
         
         oneDimensionalModel = OneDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), function: function)
-         nullsFound = oneDimensionalModel.findNullsSimple()
+        
+        GraphManager.shared.modelType = .dimensional
+        let nullsFound = oneDimensionalModel.findNullsSimple()
+        
+        GraphManager.shared.foundTwoDimensionalNulls = []
+        
+        for foundNull in nullsFound {        GraphManager.shared.foundTwoDimensionalNulls.append(FoundTwoDimensionalNull(oneDimensional:foundNull))
+        }
+        
+        GraphManager.shared.xValues = oneDimensionalModel.xPoints
+
+        var yPoints = [Double]()
+        for xPoint in oneDimensionalModel.xPoints {
+            yPoints.append(function(xPoint))
+        }
+        
+        GraphManager.shared.yValues = [PlotTypeSystem.firstFunction: yPoints]
+        
         tableView.reloadData()
         calculatePaddings()
         
         graph = CPTXYGraph(frame: NSRectToCGRect(plotView.bounds))
         let theme = CPTTheme(named: CPTThemeName.plainWhiteTheme)
-        
         graph.apply(theme)
         plotView.hostedGraph = graph
         
-        graph.plotAreaFrame?.paddingTop = CGFloat(maxFunctionPadding)
-        graph.plotAreaFrame?.paddingBottom = CGFloat(minFunctionPadding)
-        graph.plotAreaFrame?.paddingRight = CGFloat(enterATextField.doubleValue)
-        graph.plotAreaFrame?.paddingLeft = CGFloat(oneDimensionalModel.end)
+        graph.plotAreaFrame?.paddingTop = CGFloat(maxFunctionPadding + 20)
+        graph.plotAreaFrame?.paddingBottom = CGFloat(minFunctionPadding + 20)
+        graph.plotAreaFrame?.paddingRight = CGFloat(enterATextField.doubleValue + 20)
+        graph.plotAreaFrame?.paddingLeft = CGFloat(enterBTextField.doubleValue + 10.0)
+        
+        graph.plotAreaFrame?.cornerRadius = 5.0
         
         let textStyle = CPTMutableTextStyle()
-        textStyle.fontSize = 12
+        textStyle.fontSize = 10
+        textStyle.color = CPTColor.darkGray()
         
         let axisSet: CPTXYAxisSet = graph.axisSet as! CPTXYAxisSet
         
@@ -90,11 +116,11 @@ class ViewController: NSViewController {
         yAxis?.labelTextStyle = textStyle
         
         let plotSpace = graph.defaultPlotSpace
-        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: (oneDimensionalModel.end + fabs(enterATextField.doubleValue) as NSNumber)), for: .X)
+        plotSpace?.setPlotRange(CPTPlotRange(location: enterATextField.doubleValue as NSNumber, length: (fabs(enterBTextField.doubleValue) + fabs(enterATextField.doubleValue) as NSNumber)), for: .X)
         plotSpace?.setPlotRange(CPTPlotRange(location: Double(minFunctionPadding) as NSNumber, length: Double(abs(minFunctionPadding) + abs(maxFunctionPadding)) as NSNumber), for: .Y)
         
         let plot3 = CPTScatterPlot(frame: graph.bounds)
-        plot3.title = "Function"
+        plot3.title = GraphManager.shared.functionIdentifiers[0]
         plot3.dataSource = self
         
         let lineStyle3 = CPTMutableLineStyle()
@@ -104,49 +130,75 @@ class ViewController: NSViewController {
         
         graph.add(plot3)
         
+        let plotForNulls = CPTScatterPlot(frame: graph.bounds)
+        plotForNulls.title = GraphManager.shared.functionIdentifiers[1]
+        plotForNulls.dataSource = self
+        
+        let plotForNullsLineStyle = CPTMutableLineStyle()
+        plotForNullsLineStyle.lineColor = CPTColor.clear()
+        plotForNulls.dataLineStyle = plotForNullsLineStyle
+        
+        graph.add(plotForNulls)
+        
+        let symbolLineStyle = CPTMutableLineStyle()
+        symbolLineStyle.lineColor = CPTColor.green()
+        let plotSymbol = CPTPlotSymbol()
+        plotSymbol.symbolType = .ellipse
+        plotSymbol.fill = CPTFill(color: .green())
+        plotSymbol.lineStyle = symbolLineStyle
+        plotSymbol.size = CGSize(width: 5.0, height: 5.0)
+        plotForNulls.plotSymbol = plotSymbol
+        
+        graph.legendAnchor = .topLeft
+        graph.legend = CPTLegend(graph: graph)
+        graph.legend?.fill = CPTFill(color: .white())
+        graph.legendDisplacement = CGPoint(x: 40.0, y: -40.0)
+        graph.legend?.numberOfRows = 2
+        let titleStyle = CPTMutableTextStyle()
+        
+        titleStyle.color = CPTColor.darkGray()
+        titleStyle.fontSize = 10.0
+        graph.legend?.textStyle = titleStyle
+        
+        let lineStyle = CPTMutableLineStyle()
+        lineStyle.lineWidth = 0.75
+        lineStyle.lineColor = CPTColor(genericGray: 0.45)
+        
+        graph.legend?.borderLineStyle = lineStyle
+        graph.legend?.cornerRadius = 5.0
+        
     }
 
     @IBOutlet weak var enterNTextField: NSTextField!
     @IBOutlet weak var enterBTextField: NSTextField!
     @IBOutlet weak var enterATextField: NSTextField!
     @IBOutlet var plotView: CPTGraphHostingView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-       
-        
+    
+    override func viewWillAppear() {
+        GraphManager.shared.resetValues()
     }
 
-    override var representedObject: Any? {
-        didSet {
-            
-        }
-    }
 }
 
 extension ViewController: CPTPlotDataSource {
     
     func numberOfRecords(for plot: CPTPlot) -> UInt {
-        return UInt(oneDimensionalModel.numberOfSteps)
+        return GraphManager.shared.numberOfRecords(title: plot.title!)
     }
     
     func number(for plot: CPTPlot, field: UInt, record: UInt) -> Any? {
         guard
-            //let title = plot.title,
+            let title = plot.title,
             let field =  CPTScatterPlotField(rawValue: Int(field))
             
             else {
                 return nil
         }
-        
-        let number:Int = Int(record)
-        
         switch field {
         case .X:
-            return oneDimensionalModel.xPoints[number]
+            return GraphManager.shared.xValueForPlot(title, with: record)
         case .Y:
-            return function(oneDimensionalModel.xPoints[number])
+            return GraphManager.shared.yValueForPlot(title, with: record)
         }
     }
 }
@@ -154,7 +206,7 @@ extension ViewController: CPTPlotDataSource {
 extension ViewController: NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return nullsFound?.count ?? 0
+        return GraphManager.shared.foundTwoDimensionalNulls.count
     }
 }
 
@@ -170,9 +222,7 @@ extension ViewController: NSTableViewDelegate {
         var text: String = ""
         var cellIdentifier: String = ""
         // 1
-        guard let item = nullsFound?[row] else {
-            return nil
-        }
+        let item = GraphManager.shared.foundTwoDimensionalNulls[row]
         
         // 2
         if tableColumn == tableView.tableColumns[0] {

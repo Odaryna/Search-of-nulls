@@ -33,125 +33,11 @@ class OneDimensionalModel {
 
         var index = 0
         
-        for pointX in stride(from: a, to: b, by: step) {
+        for pointX in stride(from: a, to: b + step, by: step) {
             xPoints[index] = pointX
             index += 1
         }
     }
-    
-    
-    func findNulls() -> [Double] {
-        
-        var nulls: [Double] = []
-        
-        step = 0.1
-        
-        func firstStep() {
-            if abs(function(start)) < step {
-                
-                nulls.append(start)
-                forthStep()
-                return
-            } else if abs(function(end)) < step {
-                return
-            }
-            start += step
-            secondStep()
-        }
-        func secondStep() {
-            
-            while start < end {
-                
-                let fk = 1 + abs(function(start))
-                let fk1 = 1 + abs(function(start + step))
-                let fk2 = 1 + abs(function(start + 2 * step))
-                
-                let rk1 = pow(fk / fk1, 1 / step)
-                let rk11 = pow(fk1 / fk2, 1 / step)
-                
-                if rk1 >= 1.0 && rk11 <= 1.0 {
-                    
-                    if step > 0.001 {
-                        step /= 2
-                        start -= step
-
-                    } else {
-                        if abs(function(start)) < step {
-                            nulls.append(start)
-                            forthStep()
-                            return
-                        } else {
-                            thirdStep()
-                            return
-                        }
-                    }
-                }
-
-                start += step
-            }
-
-            thirdStep()
-        }
-        func thirdStep() {
-            
-            let startingPoint = start
-//            start += step
-//            step = 0.1
-            
-            while start < end {
-                
-                let ril1 = (1 + abs(function(startingPoint))) / (1 + abs(function(start)))
-                let ril11 = (1 + abs(function(startingPoint))) / (1 + abs(function(start + step)))
-                
-                if ril1 >= 1.0 && ril11 <= 1.0 {
-                    
-//                    if step > 0.0001 {
-//                        start = startingPoint
-//                        step /= 10
-//                    } else {
-                        if abs(function(start)) < step {
-                            nulls.append(start)
-                            forthStep()
-                            return
-                        }
-                        break
- //                   }
-                
-                }
-                start += step
-            }
-            
-        }
-        func forthStep() {
-            
-            step = 0.1
-            start += 2.0 * step
-            
-            while start < end {
-                
-                let rik1 = 1 / (1 + abs(function(start)))
-                let rik11 = 1 / (1 + abs(function(start + step)))
-                
-                if abs(1.0 - rik1) <= step && abs(1.0 - rik11) > step {
-                    
-                    if step > 0.0001 {
-                        step /= 2
-                        start -= step
-                    } else {
-                        nulls.append(start)
-                        step = 0.1
-                        start += 2.0 * step
-                    }
-                    
-                }
-                start += step
-            }
-        }
-        firstStep()        
-        
-        return nulls
-    }
-    
     
     func findNullsSimple() -> [FoundNull] {
         var nulls: [FoundNull] = []
@@ -165,16 +51,27 @@ class OneDimensionalModel {
         while start < end {
             
             let ri = pow((1 + abs(function(start))) / (1 + abs(function(start + step))), 1 / step)
-            let ri1 = pow((1 + abs(function(start + step))) / (1 + abs(function(start + 2 * step))), 1 / step)
-            
-            if ((ri >= 1.0 && ri1 < 1.0) || (ri > 1.0 && ri1 <= 1.0)) {
-                
-                if (step > 0.001) {
+            let ri1 = pow((1 + abs(function(start + 2 * step))) / (1 + abs(function(start + 3 * step))), 1 / step)
+
+            if ri > 1.0 && ri1 < 1.0 {
+
+                if (step > 0.0001) {
                     step /= 2
                     start -= step
                 } else {
-                    if abs(function(start + step)) < 0.01 {
-                        nulls.append(FoundNull(x: start + step, y: function(start + step)))
+                    if abs(function((2 * start + step) / 2)) < 0.01 {
+                        nulls.append(FoundNull(x: (2 * start + step) / 2, y: function((2 * start + step) / 2)))
+                    }
+                    step = abs((xPoints.last! - xPoints.first!) / Double(numberOfSteps))
+                }
+            } else if fabs(ri - 1.0) <= Double.ulpOfOne {
+
+                if (step > 0.0001) {
+                    step /= 2
+                    start -= step
+                } else {
+                    if abs(function((2 * start - step) / 2)) < 0.01 {
+                        nulls.append(FoundNull(x: (2 * start - step) / 2, y: function((2 * start - step) / 2)))
                     }
                     step = abs((xPoints.last! - xPoints.first!) / Double(numberOfSteps))
                 }
