@@ -33,11 +33,12 @@ class ViewController: NSViewController {
         
         //return x * x * x + 3 * x * x - 1
         
-//        let const = log(2 * Double.pi)
-//        return 37.18 - (2 * x - 1) / (log(x) + const - 1)
+        //return abs(x - 1)
+        //return sqrt(x-2)
         
-        return x * x * x
-
+        //return pow(x-5, 8)
+        
+        return log(2 * x)
     }
     
     private func calculatePaddings() {
@@ -54,7 +55,7 @@ class ViewController: NSViewController {
         var min = function(oneDimensionalModel.xPoints[0])
         for xPoint in oneDimensionalModel.xPoints {
             if function(xPoint) < min {
-                min = xPoint
+                min = function(xPoint)
             }
         }
         if min > Double(minFunctionPadding) {
@@ -84,7 +85,7 @@ class ViewController: NSViewController {
         GraphManager.shared.yValues = [PlotTypeSystem.firstFunction: yPoints]
         
         tableView.reloadData()
-        //calculatePaddings()
+        calculatePaddings()
         
         graph = CPTXYGraph(frame: NSRectToCGRect(plotView.bounds))
         let theme = CPTTheme(named: CPTThemeName.plainWhiteTheme)
@@ -105,7 +106,7 @@ class ViewController: NSViewController {
         let axisSet: CPTXYAxisSet = graph.axisSet as! CPTXYAxisSet
         
         let xAxis = axisSet.xAxis
-        xAxis?.majorIntervalLength = enterNTextField.intValue as NSNumber
+        xAxis?.majorIntervalLength = 1.0
         xAxis?.labelingPolicy = .fixedInterval
         xAxis?.labelTextStyle = textStyle
         

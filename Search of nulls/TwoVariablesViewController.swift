@@ -14,8 +14,8 @@ class TwoVariablesViewController: NSViewController {
     var graph: CPTGraph!
     var twoDimensionalModel: TwoDimensionalModel!
     
-    private var maxFunctionPadding : Int = 10
-    private var minFunctionPadding : Int = -10
+    lazy private var minFunctionPadding : Int = Int(enterATextField.intValue)
+    lazy private var maxFunctionPadding : Int = Int(enterBTextField.intValue)
     
     @IBOutlet weak var tableView: NSTableView! {
         didSet {
@@ -28,7 +28,7 @@ class TwoVariablesViewController: NSViewController {
         //return abs(x + y - 2) + abs(x - y + 1)
         //return abs(2 * x + y - 4) + abs(3 * x + 5 * y - 13)
         //return x * x - 2 * x + sin(x + y)
-        return sin(x) * cos(y)
+        return x * x + y * y
     }
     
     @IBOutlet weak var plotView: CPTGraphHostingView!
@@ -41,10 +41,11 @@ class TwoVariablesViewController: NSViewController {
     
     
     @IBAction func calculateTapped(_ sender: NSButton) {
-        twoDimensionalModel = TwoDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, secondStartPoint: enterA2TextField.doubleValue, secondEndPoint: enterB2TextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), secondNumberOfSteps: Int(enterNTextField.intValue), function:function)
+        twoDimensionalModel = TwoDimensionalModel(startPoint: enterATextField.doubleValue, endPoint: enterBTextField.doubleValue, secondStartPoint: enterA2TextField.doubleValue, secondEndPoint: enterB2TextField.doubleValue, numberOfSteps: Int(enterNTextField.intValue), secondNumberOfSteps: Int(enterN2TextField.intValue), function:function)
         
         GraphManager.shared.modelType = .twodimensional
         GraphManager.shared.foundTwoDimensionalNulls = twoDimensionalModel.findNullsSimple()
+        
         tableView.reloadData()
         
         graph = CPTXYGraph(frame: NSRectToCGRect(plotView.bounds))

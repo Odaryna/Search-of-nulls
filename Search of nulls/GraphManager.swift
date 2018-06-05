@@ -9,12 +9,12 @@
 import Foundation
 
 enum PlotTypeDimensional : String {
-    case function = "f(x)= x^3+3x^2-1"
+    case function = "f(x)=ln(2x)"
 }
 
 enum PlotTypeSystem : String {
-    case firstFunction = "f(x)= x^2"
-    case secondFunction = "f(x)= 1-x^2"
+    case firstFunction = "f(x)=〖(x-2)〗^2"
+    case secondFunction = "f(x)=x"
 }
 
 enum PlotTypeTwoDimensional : String {

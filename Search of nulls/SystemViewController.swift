@@ -28,28 +28,22 @@ class SystemViewController: NSViewController {
         
         //return x * x
         //return 2 - x
-        let const = log(2 * Double.pi)
-        return (2 * x - 1) / (log(x) + const - 1)
+
+        return (x - 2) * (x - 2)
     }
     
     private func secondFunction(_ x:Double) -> Double {
-    //return x + 1
-        //return 1 - x * x
-        let const = log(2 * Double.pi)
-        let radius = log(x) + const - 1
-        return 1 - x - sqrt((2 * x - 2) * (2 * x - 2) + 4 * radius / x * 100000) / 2
+//        return x + 1
+//        return 1 - x * x
+
+        return x
     }
     
     private func systemFunction(_ x:Double, y: Double) -> Double {
         //return abs(x + y - 2) + abs(x - y + 1)
         //return abs(y - x * x) + abs(y - 1 + x * x)
         
-        let const = log(2 * Double.pi)
-        let f = abs(y - (2 * x - 1) / (log(x) + const - 1))
-        let radius = 100000 * (log(x) + const - 1)
-        let g = abs(x * y * (2 * x + y - 2) - radius)
-        
-        return f + g
+        return abs(y - (x - 2) * (x - 2)) + abs(y - x)
     }
     
     @IBOutlet weak var plotView: CPTGraphHostingView!
@@ -74,7 +68,7 @@ class SystemViewController: NSViewController {
         var min = firstFunction(twoDimensionalModel.xPoints[0])
         for xPoint in twoDimensionalModel.xPoints {
             if firstFunction(xPoint) < min {
-                min = xPoint
+                min = firstFunction(xPoint)
             }
         }
         if min > Double(minFunctionPadding) {

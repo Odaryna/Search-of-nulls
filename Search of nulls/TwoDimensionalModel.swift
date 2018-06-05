@@ -37,7 +37,7 @@ class TwoDimensionalModel {
     
     let twoDimensionalFunction:(Double, Double) -> Double
     
-    lazy var xPoints:[Double] = Array.init(repeating: 0.0, count: numberOfSteps + 1)
+    var xPoints = [Double]()
     
     lazy var step:Double = abs((firstEnd - firstStart) / Double(numberOfSteps))
     lazy var secondStep:Double = abs((secondEnd - secondStart) / Double(numberOfSteps))
@@ -51,11 +51,8 @@ class TwoDimensionalModel {
         secondNumberOfSteps = m
         twoDimensionalFunction = f
         
-        var index = 0
-        
         for pointX in stride(from: a1, to: b1 + step, by: step) {
-            xPoints[index] = pointX
-            index += 1
+            xPoints.append(pointX)
         }
     }
     
